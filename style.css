@@ -6,13 +6,14 @@
 
 body {
     color: #545454;
+    background-color: #b2b2b2;
     display: flex;
     font-family: sans-serif;
     justify-content: center;
 }
 
 .container {
-    background: #14BDAC;
+    background: #f18973;
     margin: 50px;
     padding: 50px;
     border-radius: 25px;
@@ -52,7 +53,7 @@ body {
     grid-template-rows: repeat(3, 1fr);
     grid-gap: 15px;
     margin-top: 50px;
-    background: #0DA192;
+    background: #bc5a45;
 }
 
 .game-cell {
@@ -61,13 +62,13 @@ body {
     align-items: center;
     height: 200px;
     width: 200px;
-    background: #14BDAC;
+    background: #f18973;
     cursor: pointer;
 }
 
 .x,
 .o {
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .x::after {
@@ -123,4 +124,37 @@ body {
     .o::after {
         font-size: 125px;
     }
+}
+
+.winning-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    color: #F2EBD3;
+    font-size: 5rem;
+    flex-direction: column;
+}
+
+.winning-message button {
+    font-size: 3rem;
+    background-color: #F2EBD3;
+    border: 1px solid black;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message button:hover {
+    background-color: black;
+    border-color: #F2EBD3;
+    color: #F2EBD3;
+}
+
+.winning-message.show {
+    display: flex;
 }

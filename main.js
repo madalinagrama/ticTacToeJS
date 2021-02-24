@@ -1,22 +1,23 @@
 let statusDiv = document.querySelector('.status');
 const resetDiv = document.querySelector('.reset');
 const cellDivs = document.querySelectorAll('.game-cell');
-
 const xSymbol = '×';
 const oSymbol = '○';
-
 let gameIsLive = true;
 let xIsNext = true;
+const winningMessageElement = document.getElementById('winningMessage');
+const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
 
 const letterToSymbol = (letter) => letter === 'x' ? xSymbol : oSymbol;
 
 const handleWin = (letter) => {
     gameIsLive = false;
     if (letter === 'x') {
-        statusDiv.innerHTML = `${letterToSymbol(letter)} has won!`;
+        winningMessageTextElement.innerText = `${letterToSymbol(letter)} has won!`;
       } else {
-          statusDiv.innerHTML = `<span>${letterToSymbol(letter)} has won!</span>`;
+          winningMessageTextElement.innerText = `<span>${letterToSymbol(letter)} has won!</span>`;
       }
+    winningMessageElement.classList.add('show')
 }
 
 const checkGameStatus = () => {
@@ -85,10 +86,9 @@ const checkGameStatus = () => {
 
 const handleCellClick = (e) => {
     const classList = e.target.classList;
-
-    if (!gameIsLive || classList[1] === 'x'|| classList[1] === 'o'){
-        return;
-    }
+    // if (!gameIsLive || classList[1] === 'x'|| classList[1] === 'o'){
+    //     return;
+    // }
     if (xIsNext) {
         classList.add('x');
         checkGameStatus();
@@ -98,9 +98,13 @@ const handleCellClick = (e) => {
     };
 };
 
-for(let cellDiv of cellDivs){
-    cellDiv.addEventListener('click', handleCellClick);
-}
+
+cellDivs.forEach(cell => {
+    cell.addEventListener('click', handleCellClick, { once: true });
+})
+// for(let cellDiv of cellDivs){
+//     cellDiv.addEventListener('click', handleCellClick);
+// }
 
 const handleReset = (e) => {
     xIsNext = true;
