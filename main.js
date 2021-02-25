@@ -1,5 +1,4 @@
 let statusDiv = document.querySelector('.status');
-const resetDiv = document.querySelector('.reset');
 const cellDivs = document.querySelectorAll('.game-cell');
 const xSymbol = '×';
 const oSymbol = '○';
@@ -9,17 +8,23 @@ const restartButton = document.getElementById('restartButton')
 const winningMessageElement = document.getElementById('winningMessage');
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
 
-const letterToSymbol = (letter) => letter === 'x' ? xSymbol : oSymbol;
+const handleCellClick = (e) => {
+    const classList = e.target.classList;
+    if (!gameIsLive || classList[1] === 'x'|| classList[1] === 'o'){
+        return;
+    }
+    if (xIsNext) {
+        classList.add('x');
+        checkGameStatus();
+    } else {
+        classList.add('o');
+        checkGameStatus();
+    }
+};
 
-const handleWin = (letter) => {
-    gameIsLive = false;
-    if (letter === 'x') {
-        winningMessageTextElement.innerText = `${letterToSymbol(letter)} has won!`;
-      } else {
-          winningMessageTextElement.innerText = `${letterToSymbol(letter)} has won!`;
-      }
-    winningMessageElement.classList.add('show')
-}
+cellDivs.forEach(cell => {
+    cell.addEventListener('click', handleCellClick);
+})
 
 const checkGameStatus = () => {
   const topLeft = cellDivs[0].classList[1];
@@ -86,37 +91,22 @@ const checkGameStatus = () => {
   }
 };
 
-const handleCellClick = (e) => {
-    const classList = e.target.classList;
-    if (!gameIsLive || classList[1] === 'x'|| classList[1] === 'o'){
-        return;
-    }
-    if (xIsNext) {
-        classList.add('x');
-        checkGameStatus();
-    } else {
-        classList.add('o');
-        checkGameStatus();
-    }
-};
+const letterToSymbol = (letter) => letter === 'x' ? xSymbol : oSymbol;
 
-
-cellDivs.forEach(cell => {
-    cell.addEventListener('click', handleCellClick);
-})
-// for(let cellDiv of cellDivs){
-//     cellDiv.addEventListener('click', handleCellClick);
-// }
+const handleWin = (letter) => {
+    gameIsLive = false;
+    if (letter === 'x') {
+        winningMessageTextElement.innerText = `${letterToSymbol(letter)} has won!`;
+      } else {
+          winningMessageTextElement.innerText = `${letterToSymbol(letter)} has won!`;
+      }
+    winningMessageElement.classList.add('show')
+}
 
 const handleReset = (e) => {
     xIsNext = true;
     gameIsLive = true;
     statusDiv.innerHTML = `${xSymbol} is next`;
-    // for(const cell of cellDivs) {
-    //     cell.classList.remove('x');
-    //     cell.classList.remove('o');
-    //     cell.classList.remove('won');
-    //}
     cellDivs.forEach(cell => {
         cell.classList.remove('x');
         cell.classList.remove('o');
@@ -124,8 +114,6 @@ const handleReset = (e) => {
     })
     winningMessageElement.classList.remove('show');
 }
-
-// resetDiv.addEventListener('click', handleReset);
 
 restartButton.addEventListener('click', handleReset);
 

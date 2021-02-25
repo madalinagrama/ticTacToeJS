@@ -39,13 +39,13 @@ body {
     color: #F2EBD3;
 }
 
-.reset {
-    cursor: pointer;
-}
+/*.reset {*/
+/*    cursor: pointer;*/
+/*}*/
 
-.reset:hover {
-    color: #F2EBD3;
-}
+/*.reset:hover {*/
+/*    color: #F2EBD3;*/
+/*}*/
 
 .game-grid {
     display: grid;
