@@ -7,16 +7,6 @@ let xIsNext = true;
 const restartButton = document.getElementById('restartButton')
 const winningMessageElement = document.getElementById('winningMessage');
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]');
-const winners = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-];
 
 const handleCellClick = (e) => {
     const classList = e.target.classList;
@@ -25,10 +15,8 @@ const handleCellClick = (e) => {
     }
     if (xIsNext) {
         classList.add('x');
-        xIsNext = false;
     } else {
         classList.add('o');
-        xIsNext = true;
     }
     checkGameStatus();
 };
@@ -36,19 +24,6 @@ const handleCellClick = (e) => {
 cellDivs.forEach(cell => {
     cell.addEventListener('click', handleCellClick);
 })
-
-const winFunction = () =>
-    any(
-        winners.map((c) => {
-            let row = cellDivs
-                .filter((_, i) => c.includes(i))
-                .map((d) => d.classList[1]);
-            let allX = all(row.map((r) => r === xSymbol));
-            let allO = all(row.map((r) => r === oSymbol));
-
-            return allX || allO;
-        })
-    );
 
 const checkGameStatus = () => {
   const topLeft = cellDivs[0].classList[1];
@@ -61,32 +36,31 @@ const checkGameStatus = () => {
   const bottomMiddle = cellDivs[7].classList[1];
   const bottomRight = cellDivs[8].classList[1];
   let winningRow = [];
-  if (winFunction()){
-      return handleWin(xIsNext ? xSymbol : oSymbol);
-  // if (topLeft && topLeft === topMiddle && topLeft === topRight) {
-  //     handleWin(topLeft);
-  //     winningRow = [0, 1, 2];
-  // } else if (middleLeft && middleLeft === middleMiddle && middleLeft === middleRight) {
-  //     handleWin(middleLeft);
-  //     winningRow = [ 3, 4, 5];
-  // } else if (bottomLeft && bottomLeft === bottomMiddle && bottomLeft === bottomRight) {
-  //     handleWin(bottomLeft);
-  //     winningRow = [6, 7, 8];
-  // } else if (topLeft && topLeft === middleLeft && topLeft === bottomLeft) {
-  //     handleWin(topLeft);
-  //     winningRow = [0, 3, 6];
-  // } else if (topMiddle && topMiddle === middleMiddle && topMiddle === bottomMiddle) {
-  //     handleWin(topMiddle);
-  //     winningRow = [1, 4, 7]
-  // } else if (topRight && topRight === middleRight && topRight === bottomRight ) {
-  //     handleWin(topRight);
-  //     winningRow = [5, 2, 8];
-  // } else if (topLeft && topLeft === middleMiddle && topLeft === bottomRight) {
-  //     handleWin(topLeft);
-  //     winningRow = [0, 4, 8];
-  // } else if (topRight && topRight === middleMiddle && topRight === bottomLeft) {
-  //     handleWin(topRight);
-  //     winningRow = [2, 4, 6];
+
+  if (topLeft && topLeft === topMiddle && topLeft === topRight) {
+      handleWin(topLeft);
+      winningRow = [0, 1, 2];
+  } else if (middleLeft && middleLeft === middleMiddle && middleLeft === middleRight) {
+      handleWin(middleLeft);
+      winningRow = [ 3, 4, 5];
+  } else if (bottomLeft && bottomLeft === bottomMiddle && bottomLeft === bottomRight) {
+      handleWin(bottomLeft);
+      winningRow = [6, 7, 8];
+  } else if (topLeft && topLeft === middleLeft && topLeft === bottomLeft) {
+      handleWin(topLeft);
+      winningRow = [0, 3, 6];
+  } else if (topMiddle && topMiddle === middleMiddle && topMiddle === bottomMiddle) {
+      handleWin(topMiddle);
+      winningRow = [1, 4, 7]
+  } else if (topRight && topRight === middleRight && topRight === bottomRight ) {
+      handleWin(topRight);
+      winningRow = [5, 2, 8];
+  } else if (topLeft && topLeft === middleMiddle && topLeft === bottomRight) {
+      handleWin(topLeft);
+      winningRow = [0, 4, 8];
+  } else if (topRight && topRight === middleMiddle && topRight === bottomLeft) {
+      handleWin(topRight);
+      winningRow = [2, 4, 6];
   } else if (topLeft && topMiddle && topRight && middleLeft && middleMiddle && middleRight && bottomLeft && bottomMiddle && bottomRight) {
       gameIsLive = false;
       winningMessageTextElement.innerText = 'Draw!';
